@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.jdbc.Sql;
+import toy.project.delivery.userservice.user.application.port.out.CreateUserCommand;
 import toy.project.delivery.userservice.user.domain.User;
 
 import java.util.List;
@@ -44,4 +45,20 @@ class UserPersistenceAdapterTest {
         assertThat(users.size()).isEqualTo(max);
         assertThat(users.get(0).getName()).isEqualTo("user3");
     }
+
+    @Test
+    void createUser() {
+        String email = "email@gmail.com";
+        String password = "password";
+        String name = "name";
+        User user = userPersistenceAdapter.createUser(
+                CreateUserCommand.of(email, password, name)
+        );
+
+        assertThat(user.getId()).isNotNull();
+        assertThat(user.getEmail()).isEqualTo(email);
+        assertThat(user.getEncryptedPwd()).isEqualTo(password);
+        assertThat(user.getName()).isEqualTo(name);
+    }
+
 }

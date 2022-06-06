@@ -8,9 +8,9 @@ class UserMapper {
     public User mapToDomainEntity(UserJpaEntity entity) {
         return User.builder()
                 .id(entity.getId())
-//                .email(entity.getEmail())
+                .email(entity.getEmail())
                 .name(entity.getName())
-//                .encryptedPwd(entity.getEncryptedPwd())
+                .encryptedPwd(entity.getEncryptedPwd())
                 .build();
     }
 }
