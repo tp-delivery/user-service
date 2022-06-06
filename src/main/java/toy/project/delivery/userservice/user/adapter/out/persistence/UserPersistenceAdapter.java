@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import toy.project.delivery.userservice.user.application.port.out.CreateUserCommand;
 import toy.project.delivery.userservice.user.application.port.out.CreateUserPort;
 import toy.project.delivery.userservice.user.application.port.out.LoadAllUsersPort;
+import toy.project.delivery.userservice.user.application.port.out.LoadUserByIdPort;
 import toy.project.delivery.userservice.user.domain.User;
 
 import java.util.List;
@@ -14,16 +15,24 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-class UserPersistenceAdapter implements LoadAllUsersPort, CreateUserPort {
+class UserPersistenceAdapter implements LoadAllUsersPort, CreateUserPort, LoadUserByIdPort {
     private final UserRepository userRepository;
-    private final UserMapper userMapper;
+    private final UserJpaEntityMapper userJpaEntityMapper;
+
+    @Override
+    public User loadUserById(Long id) {
+        UserJpaEntity user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User Not Found"));
+
+        return userJpaEntityMapper.mapToDomainEntity(user);
+    }
 
     @Override
     public List<User> loadAllUsers(int offset, int max) {
         Page<UserJpaEntity> userJpaEntityPage = userRepository.findAll(PageRequest.of(offset, max));
 
         return userJpaEntityPage.stream()
-                .map(userMapper::mapToDomainEntity)
+                .map(userJpaEntityMapper::mapToDomainEntity)
                 .collect(Collectors.toList());
     }
 
@@ -35,6 +44,6 @@ class UserPersistenceAdapter implements LoadAllUsersPort, CreateUserPort {
                 .name(command.getName())
                 .build();
         UserJpaEntity saved = userRepository.save(entity);
-        return userMapper.mapToDomainEntity(saved);
+        return userJpaEntityMapper.mapToDomainEntity(saved);
     }
 }

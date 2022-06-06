@@ -5,6 +5,6 @@ import lombok.Value;
 import java.util.List;
 
 @Value(staticConstructor = "of")
-class GetAllUsersDto {
+class AllUsersDto {
     List<UserDto> users;
 }

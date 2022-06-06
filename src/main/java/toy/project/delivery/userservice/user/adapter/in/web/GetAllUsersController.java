@@ -15,16 +15,16 @@ import java.util.List;
 public class GetAllUsersController {
 
     private final GetAllUsersUseCase getAllUsersUseCase;
-    private final GetAllUsersMapper getAllUsersMapper;
+    private final UserWebModelMapper userWebModelMapper;
 
     @GetMapping("/users")
-    public ResponseEntity<GetAllUsersDto> getAllUsers(
+    public ResponseEntity<AllUsersDto> getAllUsers(
             @RequestParam(required = false, defaultValue = "0") int offset,
             @RequestParam(required = false, defaultValue = "10") int max
     ) {
         List<User> users = getAllUsersUseCase.getAllUsers(offset, max);
-        GetAllUsersDto getAllUsersDto = getAllUsersMapper.mapToWebModel(users);
+        AllUsersDto allUsersDto = userWebModelMapper.mapToWebModel(users);
 
-        return ResponseEntity.ok(getAllUsersDto);
+        return ResponseEntity.ok(allUsersDto);
     }
 }

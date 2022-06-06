@@ -11,14 +11,35 @@ import toy.project.delivery.userservice.user.domain.User;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DataJpaTest
-@Import({UserPersistenceAdapter.class, UserMapper.class})
+@Import({UserPersistenceAdapter.class, UserJpaEntityMapper.class})
 class UserPersistenceAdapterTest {
     @Autowired
     private UserPersistenceAdapter userPersistenceAdapter;
     @Autowired
     private UserRepository userRepository;
+
+    @Test
+    @Sql("UserPersistenceAdapterTest.sql")
+    void loadUserById_exists() {
+        Long id = 1L;
+        User user = userPersistenceAdapter.loadUserById(id);
+
+        assertThat(user.getName()).isEqualTo("user1");
+    }
+
+    @Test
+    @Sql("UserPersistenceAdapterTest.sql")
+    void loadUserById_not_exists() {
+        Long id = 43141L;
+
+        assertThatThrownBy(() -> userPersistenceAdapter.loadUserById(id))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessage("User Not Found");
+    }
+
 
     @Test
     @Sql("UserPersistenceAdapterTest.sql")

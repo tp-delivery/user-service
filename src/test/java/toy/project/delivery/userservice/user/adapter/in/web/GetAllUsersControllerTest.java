@@ -24,7 +24,7 @@ class GetAllUsersControllerTest {
     @MockBean
     private GetAllUsersUseCase getAllUsersUseCase;
     @MockBean
-    private GetAllUsersMapper getAllUsersMapper;
+    private UserWebModelMapper userWebModelMapper;
 
     @Test
     void getAllUsers_without_offset_max() throws Exception {
@@ -39,7 +39,7 @@ class GetAllUsersControllerTest {
         then(getAllUsersUseCase).should()
                 .getAllUsers(eq(defaultOffset), eq(defaultMax));
 
-        then(getAllUsersMapper).should()
+        then(userWebModelMapper).should()
                 .mapToWebModel(eq(users));
     }
 
@@ -59,7 +59,7 @@ class GetAllUsersControllerTest {
         then(getAllUsersUseCase).should()
                 .getAllUsers(eq(offset), eq(max));
 
-        then(getAllUsersMapper).should()
+        then(userWebModelMapper).should()
                 .mapToWebModel(eq(users));
     }
 
