@@ -20,8 +20,7 @@ class UserWebModelMapper {
         return UserDto.of(
                 user.getId(),
                 user.getEmail(),
-                user.getName(),
-                user.getEncryptedPwd()
+                user.getName()
         );
     }
 }

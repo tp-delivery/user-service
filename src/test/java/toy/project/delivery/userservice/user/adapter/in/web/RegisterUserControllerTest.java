@@ -5,8 +5,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import toy.project.delivery.userservice.security.SecurityConfiguration;
 import toy.project.delivery.userservice.user.application.port.in.RegisterUserCommand;
 import toy.project.delivery.userservice.user.application.port.in.RegisterUserUseCase;
 
@@ -17,6 +19,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@Import(SecurityConfiguration.class)
 @WebMvcTest(controllers = RegisterUserController.class)
 class RegisterUserControllerTest {
     @Autowired

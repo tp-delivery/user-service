@@ -9,6 +9,4 @@ public class UserDto {
     String email;
 
     String name;
-
-    String encryptedPwd;
 }

@@ -3,9 +3,13 @@ package toy.project.delivery.userservice.user.adapter.in.web;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import toy.project.delivery.userservice.security.SecurityConfiguration;
 import toy.project.delivery.userservice.user.application.port.in.GetAllUsersUseCase;
 import toy.project.delivery.userservice.user.domain.User;
 
@@ -17,6 +21,7 @@ import static org.mockito.BDDMockito.then;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@Import(SecurityConfiguration.class)
 @WebMvcTest(controllers = GetAllUsersController.class)
 class GetAllUsersControllerTest {
     @Autowired
